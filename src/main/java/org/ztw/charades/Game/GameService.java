@@ -2,10 +2,12 @@ package org.ztw.charades.Game;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.GameExistsEx;
 import org.ztw.charades.Exceptions.GameNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class GameService implements IGameService {
@@ -43,6 +45,9 @@ public class GameService implements IGameService {
     @Override
     @Transactional
     public Game updateGame(Long id, Game game) throws GameNotFoundEx {
+        if (!Objects.equals(id, game.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         Game old_game = gameRepo.findById(id).orElseThrow(
                 () -> new GameNotFoundEx(id)
         );

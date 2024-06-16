@@ -117,4 +117,13 @@ public class ExController {
                 .header(HttpHeaders.CONTENT_TYPE)
                 .body(e.getMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(BadRequestEx.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    ResponseEntity<?> BREHandler(BadRequestEx e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .header(HttpHeaders.CONTENT_TYPE)
+                .body(e.getMessage());
+    }
 }

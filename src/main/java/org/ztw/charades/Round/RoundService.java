@@ -2,10 +2,12 @@ package org.ztw.charades.Round;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.RoundExistsEx;
 import org.ztw.charades.Exceptions.RoundNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class RoundService implements IRoundService {
@@ -43,6 +45,9 @@ public class RoundService implements IRoundService {
     @Override
     @Transactional
     public Round updateRound(Long id, Round round) throws RoundNotFoundEx {
+        if (!Objects.equals(id, round.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         Round old_round = roundRepo.findById(id).orElseThrow(
                 () -> new RoundNotFoundEx(id)
         );

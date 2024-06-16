@@ -2,10 +2,12 @@ package org.ztw.charades.Prompt;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.PromptExistsEx;
 import org.ztw.charades.Exceptions.PromptNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class PromptService implements IPromptService {
@@ -43,6 +45,9 @@ public class PromptService implements IPromptService {
     @Override
     @Transactional
     public Prompt updatePrompt(Long id, Prompt prompt) throws PromptNotFoundEx {
+        if (!Objects.equals(id, prompt.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         Prompt old_prompt = promptRepo.findById(id).orElseThrow(
                 () -> new PromptNotFoundEx(id)
         );

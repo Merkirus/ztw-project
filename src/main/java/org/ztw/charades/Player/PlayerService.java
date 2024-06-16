@@ -2,10 +2,12 @@ package org.ztw.charades.Player;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.PlayerExistsEx;
 import org.ztw.charades.Exceptions.PlayerNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class PlayerService implements IPlayerService {
@@ -43,6 +45,9 @@ public class PlayerService implements IPlayerService {
     @Override
     @Transactional
     public Player updatePlayer(Long id, Player player) throws PlayerNotFoundEx {
+        if (!Objects.equals(id, player.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         Player old_player = playerRepo.findById(id).orElseThrow(
                 () -> new PlayerNotFoundEx(id)
         );

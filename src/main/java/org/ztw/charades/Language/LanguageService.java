@@ -2,11 +2,13 @@ package org.ztw.charades.Language;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.LanguageExistsEx;
 import org.ztw.charades.Exceptions.LanguageNotFoundEx;
 import org.ztw.charades.Exceptions.UserNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class LanguageService implements ILanguageService {
@@ -44,6 +46,9 @@ public class LanguageService implements ILanguageService {
     @Override
     @Transactional
     public Language updateLanguage(Long id, Language language) throws LanguageNotFoundEx {
+        if (!Objects.equals(id, language.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         Language old_lang = langRepo.findById(id).orElseThrow(
                 () -> new UserNotFoundEx(id)
         );

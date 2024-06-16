@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ztw.charades.Exceptions.BadRequestEx;
 import org.ztw.charades.Exceptions.UserExistsEx;
 import org.ztw.charades.Exceptions.UserNotFoundEx;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class UserService implements IUserService {
@@ -48,6 +50,9 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public User updateUser(Long id, User user) throws UserNotFoundEx {
+        if (!Objects.equals(id, user.getId())) {
+            throw new BadRequestEx("Wrong URL id and json body id - update");
+        }
         User old_user = userRepo.findById(id).orElseThrow(
                 () -> new UserNotFoundEx(id)
         );
