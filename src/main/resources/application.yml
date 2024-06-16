@@ -1,0 +1,54 @@
+spring:
+    application:
+        name: charades
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
+    datasource:
+        url: jdbc:postgresql://localhost:5432/charades
+        username: postgres
+        password: password
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        show-sql: true
+        properties:
+            hibernate:
+                ddl-auto: update
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: false
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_M4jUob6Ql
+    flyway:
+        locations: classpath:db/migration
+        clean-on-validation-error: true
+        clean-disabled: false
+
+server:
+    port: 8081
+    error:
+        include-message: always
+
+
+
+#spring.application.name=charades
+#spring.mvc.hiddenmethod.filter.enabled=true
+#server.port=8081
+#
+#spring.datasource.url=jdbc:postgresql://localhost:5432/charades
+#spring.datasource.username=postgres
+#spring.datasource.password=password
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.show-sql=true
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+#spring.jpa.properties.hibernate.format_sql=false
+#
+#server.error.include-message=always
+#
+#spring.flyway.locations=classpath:db/migration
+#spring.flyway.clean-on-validation-error=true
+#spring.flyway.clean-disabled=false
