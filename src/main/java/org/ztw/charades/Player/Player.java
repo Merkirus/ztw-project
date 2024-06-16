@@ -7,7 +7,7 @@ import org.ztw.charades.User.User;
 import java.util.Set;
 
 @Entity(name = "player")
-@Table
+@Table(name = "players")
 public class Player {
     @Id
     @SequenceGenerator(
@@ -20,26 +20,28 @@ public class Player {
             generator = "player_sequence"
     )
     private Long id;
+    @Column(nullable = true)
     private Integer place;
-    private Boolean is_drawing;
+    @Column(name = "is_drawing", nullable = false)
+    private Boolean isDrawing;
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false, foreignKey = @ForeignKey(name = "fk_player_user"))
     private User user;
     @ManyToOne
-    @JoinColumn(name = "id_round")
+    @JoinColumn(name = "id_round", nullable = false, foreignKey = @ForeignKey(name = "fk_player_round"))
     private Round round;
 
     public Player() {}
 
-    public Player(Long id, Integer place, Boolean is_drawing) {
+    public Player(Long id, Integer place, Boolean isDrawing) {
         this.id = id;
         this.place = place;
-        this.is_drawing = is_drawing;
+        this.isDrawing = isDrawing;
     }
 
-    public Player(Integer place, Boolean is_drawing) {
+    public Player(Integer place, Boolean isDrawing) {
         this.place = place;
-        this.is_drawing = is_drawing;
+        this.isDrawing = isDrawing;
     }
 
     public void setId(Long id) {
@@ -50,16 +52,16 @@ public class Player {
         this.user = user;
     }
 
-    public void setIs_drawing(Boolean is_drawing) {
-        this.is_drawing = is_drawing;
-    }
-
     public void setPlace(Integer place) {
         this.place = place;
     }
 
     public void setRound(Round round) {
         this.round = round;
+    }
+
+    public void setDrawing(Boolean drawing) {
+        isDrawing = drawing;
     }
 
     public Long getId() {
@@ -70,12 +72,12 @@ public class Player {
         return user;
     }
 
-    public Boolean getIs_drawing() {
-        return is_drawing;
-    }
-
     public Integer getPlace() {
         return place;
+    }
+
+    public Boolean getDrawing() {
+        return isDrawing;
     }
 
     public Round getRound() {

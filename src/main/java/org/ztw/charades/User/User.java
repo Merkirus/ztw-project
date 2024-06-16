@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "user")
-@Table
+@Table(name = "users")
 public class User {
     @Id
     @SequenceGenerator(
@@ -20,11 +20,14 @@ public class User {
             generator = "user_sequence"
     )
     private Long id;
+    @Column(nullable = false, unique = true)
     private String login;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false, unique = true)
     private String username;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Player> players;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Set<Player> players;
 
 
     public User() {}
@@ -74,13 +77,13 @@ public class User {
         this.username = username;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
-    }
+//    public Set<Player> getPlayers() {
+//        return players;
+//    }
+//
+//    public void setPlayers(Set<Player> players) {
+//        this.players = players;
+//    }
 
     @Override
     public boolean equals(Object obj) {

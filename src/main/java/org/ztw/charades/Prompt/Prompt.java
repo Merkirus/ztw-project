@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import org.ztw.charades.Language.Language;
 
 @Entity(name = "prompt")
-@Table
+@Table(name = "prompts",
+        uniqueConstraints = { @UniqueConstraint(name = "uk_prompt_name_language" ,columnNames = {"name","id_language"}) }
+)
 public class Prompt {
     @Id
     @SequenceGenerator(
@@ -17,9 +19,10 @@ public class Prompt {
             generator = "prompt_sequence"
     )
     private Long id;
+    @Column(nullable = false)
     private String name;
     @ManyToOne
-    @JoinColumn(name = "id_language")
+    @JoinColumn(name = "id_language", nullable = false, foreignKey = @ForeignKey(name = "fk_prompt_language"))
     private Language language;
 
     public Prompt() {}

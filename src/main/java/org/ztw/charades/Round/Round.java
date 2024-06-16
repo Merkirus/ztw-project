@@ -9,7 +9,7 @@ import org.ztw.charades.User.User;
 import java.util.Set;
 
 @Entity(name = "round")
-@Table
+@Table(name = "rounds")
 public class Round {
     @Id
     @SequenceGenerator(
@@ -22,16 +22,19 @@ public class Round {
             generator = "round_sequence"
     )
     private Long id;
+    @Column(name = "\"order\"", nullable = false)
     private Integer order;
+    @Column(nullable = false)
+    @Lob
     Byte[] image;
     @ManyToOne
-    @JoinColumn(name = "id_game")
+    @JoinColumn(name = "id_game", nullable = false, foreignKey = @ForeignKey(name = "fk_round_game"))
     private Game game;
     @ManyToOne
-    @JoinColumn(name = "id_prompt")
+    @JoinColumn(name = "id_prompt", nullable = false, foreignKey = @ForeignKey(name = "fk_round_prompt"))
     private Prompt prompt;
-    @OneToMany(mappedBy = "round", cascade = CascadeType.ALL)
-    private Set<Player> players;
+//    @OneToMany(mappedBy = "round", cascade = CascadeType.ALL)
+//    private Set<Player> players;
 
     public Round() {}
 
@@ -90,11 +93,11 @@ public class Round {
         this.prompt = prompt;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
-    }
+//    public Set<Player> getPlayers() {
+//        return players;
+//    }
+//
+//    public void setPlayers(Set<Player> players) {
+//        this.players = players;
+//    }
 }

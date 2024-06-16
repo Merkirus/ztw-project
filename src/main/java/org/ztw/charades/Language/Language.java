@@ -6,7 +6,7 @@ import org.ztw.charades.Prompt.Prompt;
 import java.util.Set;
 
 @Entity(name = "language")
-@Table
+@Table(name = "languages")
 public class Language {
     @Id
     @SequenceGenerator(
@@ -19,9 +19,10 @@ public class Language {
             generator = "language_sequence"
     )
     private Long id;
+    @Column(nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL)
-    private Set<Prompt> prompts;
+//    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL)
+//    private Set<Prompt> prompts;
 
     public Language() {}
 
@@ -50,11 +51,11 @@ public class Language {
         this.name = name;
     }
 
-    public Set<Prompt> getPrompts() {
-        return prompts;
-    }
-
-    public void setPrompts(Set<Prompt> prompts) {
-        this.prompts = prompts;
-    }
+//    public Set<Prompt> getPrompts() {
+//        return prompts;
+//    }
+//
+//    public void setPrompts(Set<Prompt> prompts) {
+//        this.prompts = prompts;
+//    }
 }

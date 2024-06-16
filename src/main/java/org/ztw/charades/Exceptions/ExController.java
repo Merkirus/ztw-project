@@ -39,9 +39,9 @@ public class ExController {
     }
 
     @ResponseBody
-    @ExceptionHandler(RoundNotFoundEx.class)
+    @ExceptionHandler(RoundExistsEx.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
-    ResponseEntity<?> REEHandler(RoundNotFoundEx e) {
+    ResponseEntity<?> REEHandler(RoundExistsEx e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .header(HttpHeaders.CONTENT_TYPE)
                 .body(e.getMessage());

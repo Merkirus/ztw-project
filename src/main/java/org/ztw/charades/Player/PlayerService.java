@@ -44,7 +44,7 @@ public class PlayerService implements IPlayerService {
                 () -> new PlayerNotFoundEx(id)
         );
         old_player.setPlace(player.getPlace());
-        old_player.setIs_drawing(player.getIs_drawing());
+        old_player.setDrawing(player.getDrawing());
         old_player.setUser(player.getUser());
         old_player.setRound(player.getRound());
         return old_player;

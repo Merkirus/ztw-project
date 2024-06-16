@@ -47,7 +47,7 @@ public class RoundService implements IRoundService {
         old_round.setImage(round.getImage());
         old_round.setGame(round.getGame());
         old_round.setPrompt(round.getPrompt());
-        old_round.setPlayers(round.getPlayers());
+//        old_round.setPlayers(round.getPlayers());
         return old_round;
     }
 

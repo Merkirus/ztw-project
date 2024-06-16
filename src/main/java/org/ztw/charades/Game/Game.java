@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity(name = "game")
-@Table
+@Table(name = "games")
 public class Game {
     @Id
     @SequenceGenerator(
@@ -22,19 +22,20 @@ public class Game {
             generator = "game_sequence"
     )
     private Long id;
+    @Column(name = "\"date\"", nullable = false)
     private LocalDate date;
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-    private Set<Round> rounds;
+//    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+//    private Set<Round> rounds;
 
     public Game() {}
 
-    public Set<Round> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(Set<Round> rounds) {
-        this.rounds = rounds;
-    }
+//    public Set<Round> getRounds() {
+//        return rounds;
+//    }
+//
+//    public void setRounds(Set<Round> rounds) {
+//        this.rounds = rounds;
+//    }
 
     public Game(Long id, LocalDate date) {
         this.id = id;

@@ -45,7 +45,7 @@ public class LanguageService implements ILanguageService {
                 () -> new UserNotFoundEx(id)
         );
         old_lang.setName(language.getName());
-        old_lang.setPrompts(language.getPrompts());
+//        old_lang.setPrompts(language.getPrompts());
         return old_lang;
     }
 
