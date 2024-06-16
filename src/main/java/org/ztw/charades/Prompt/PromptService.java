@@ -1,6 +1,7 @@
 package org.ztw.charades.Prompt;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ztw.charades.Exceptions.PromptExistsEx;
 import org.ztw.charades.Exceptions.PromptNotFoundEx;
 
@@ -15,6 +16,7 @@ public class PromptService implements IPromptService {
     }
 
     @Override
+    @Transactional
     public Prompt addPrompt(Prompt prompt) throws PromptExistsEx {
         Long _id = prompt.getId();
         if (promptRepo.findById(_id).isPresent()) {
@@ -39,16 +41,19 @@ public class PromptService implements IPromptService {
     }
 
     @Override
+    @Transactional
     public Prompt updatePrompt(Long id, Prompt prompt) throws PromptNotFoundEx {
         Prompt old_prompt = promptRepo.findById(id).orElseThrow(
                 () -> new PromptNotFoundEx(id)
         );
         old_prompt.setName(prompt.getName());
         old_prompt.setLanguage(prompt.getLanguage());
+        promptRepo.save(old_prompt);
         return old_prompt;
     }
 
     @Override
+    @Transactional
     public Boolean deletePrompt(Long id) throws PromptNotFoundEx {
         if (promptRepo.findById(id).isEmpty()) {
             throw new PromptNotFoundEx(id);

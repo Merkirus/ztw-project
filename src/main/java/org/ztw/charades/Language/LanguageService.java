@@ -1,6 +1,7 @@
 package org.ztw.charades.Language;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ztw.charades.Exceptions.LanguageExistsEx;
 import org.ztw.charades.Exceptions.LanguageNotFoundEx;
 import org.ztw.charades.Exceptions.UserNotFoundEx;
@@ -16,6 +17,7 @@ public class LanguageService implements ILanguageService {
     }
 
     @Override
+    @Transactional
     public Language addLanguage(Language language) throws LanguageExistsEx {
         Long _id = language.getId();
         if (langRepo.findById(_id).isPresent()) {
@@ -40,16 +42,19 @@ public class LanguageService implements ILanguageService {
     }
 
     @Override
+    @Transactional
     public Language updateLanguage(Long id, Language language) throws LanguageNotFoundEx {
         Language old_lang = langRepo.findById(id).orElseThrow(
                 () -> new UserNotFoundEx(id)
         );
         old_lang.setName(language.getName());
 //        old_lang.setPrompts(language.getPrompts());
+        langRepo.save(old_lang);
         return old_lang;
     }
 
     @Override
+    @Transactional
     public Boolean deleteLanguage(Long id) throws LanguageNotFoundEx {
         if (langRepo.findById(id).isEmpty()) {
             throw new LanguageNotFoundEx(id);

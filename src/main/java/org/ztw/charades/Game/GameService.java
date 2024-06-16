@@ -1,6 +1,7 @@
 package org.ztw.charades.Game;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ztw.charades.Exceptions.GameExistsEx;
 import org.ztw.charades.Exceptions.GameNotFoundEx;
 
@@ -15,6 +16,7 @@ public class GameService implements IGameService {
     }
 
     @Override
+    @Transactional
     public Game addGame(Game game) throws GameExistsEx {
         Long _id = game.getId();
         if (gameRepo.findById(_id).isPresent()) {
@@ -39,15 +41,18 @@ public class GameService implements IGameService {
     }
 
     @Override
+    @Transactional
     public Game updateGame(Long id, Game game) throws GameNotFoundEx {
         Game old_game = gameRepo.findById(id).orElseThrow(
                 () -> new GameNotFoundEx(id)
         );
         old_game.setDate(game.getDate());
+        gameRepo.save(old_game);
         return old_game;
     }
 
     @Override
+    @Transactional
     public Boolean deleteGame(Long id) throws GameNotFoundEx {
         if (gameRepo.findById(id).isEmpty()) {
             throw new GameNotFoundEx(id);

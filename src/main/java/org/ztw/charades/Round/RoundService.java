@@ -1,6 +1,7 @@
 package org.ztw.charades.Round;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ztw.charades.Exceptions.RoundExistsEx;
 import org.ztw.charades.Exceptions.RoundNotFoundEx;
 
@@ -15,6 +16,7 @@ public class RoundService implements IRoundService {
     }
 
     @Override
+    @Transactional
     public Round addRound(Round round) throws RoundExistsEx {
         Long _id = round.getId();
         if (roundRepo.findById(_id).isPresent()) {
@@ -39,6 +41,7 @@ public class RoundService implements IRoundService {
     }
 
     @Override
+    @Transactional
     public Round updateRound(Long id, Round round) throws RoundNotFoundEx {
         Round old_round = roundRepo.findById(id).orElseThrow(
                 () -> new RoundNotFoundEx(id)
@@ -48,10 +51,12 @@ public class RoundService implements IRoundService {
         old_round.setGame(round.getGame());
         old_round.setPrompt(round.getPrompt());
 //        old_round.setPlayers(round.getPlayers());
+        roundRepo.save(old_round);
         return old_round;
     }
 
     @Override
+    @Transactional
     public Boolean deleteRound(Long id) throws RoundNotFoundEx {
         if (roundRepo.findById(id).isEmpty()) {
             throw new RoundNotFoundEx(id);
